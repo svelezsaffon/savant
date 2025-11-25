@@ -1,0 +1,46 @@
+# Prueba Tecnica Savant
+
+
+El siguiente repositorio es utilizado para una prueba tecnica de Savant para la posicion QA automation
+
+
+
+# Instalacion
+
+
+Se recomienda utilizar un ambiente virtual para ejectuar el proyecto
+
+## Creare ambiente virtual
+
+```
+python3 -m venv .venv
+
+source .venv/bin/activate
+
+python3 -m pip install --upgrade pip
+```
+
+## Instalar dependencias
+
+```
+pip install -r requirements.txt
+```
+
+## Dependencias
+
+Algunas librerias neceitan algunas dependencias, por ejemplo whisper
+
+1) on Ubuntu or Debian
+`sudo apt update && sudo apt install ffmpeg`
+
+2) on Arch Linux
+`sudo pacman -S ffmpeg`
+
+3) on MacOS using Homebrew (https://brew.sh/)
+`brew install ffmpeg`
+
+4) on Windows using Chocolatey (https://chocolatey.org/)
+`choco install ffmpeg`
+
+5) on Windows using Scoop (https://scoop.sh/)
+`scoop install ffmpeg`
