@@ -33,7 +33,7 @@ jobs:
         run: docker run -d --name savant -p 8100:8100 ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 
       - name: Instalar dependencias de test
-        run: pip install -r requirements.txt
+        run: pip install -r test_requirements.txt
 
       - name: Esperar que Servidor este list
         run: |
@@ -54,3 +54,9 @@ jobs:
       - name: Apagar contenedor
         if: always()
         run: docker stop savant && docker rm savant
+
+      #https://github.com/actions/upload-pages-artifact
+      - name: Subir reporte a pages
+        uses: actions/deploy-pages@v4
+        with:
+          path: reports

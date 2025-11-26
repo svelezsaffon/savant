@@ -1,0 +1,6 @@
+fastapi[standard]
+requests
+python-dotenv
+python-multipart
+Faker
+pytest-html
