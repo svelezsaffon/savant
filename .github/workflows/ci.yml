@@ -5,9 +5,17 @@ on:
     pull_request:
 
 jobs:
-  #https://github.com/docker/login-action?tab=readme-ov-file#github-container-registry
+  # https://github.com/docker/login-action?tab=readme-ov-file#github-container-registry
+  # https://docs.github.com/en/actions/reference/workflows-and-actions/variables
   build:
     runs-on: ubuntu-latest
+
+    # https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions#upgrading-a-workflow-that-accesses-ghcrio
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
     steps:
       - uses: actions/checkout@v3
 
@@ -19,17 +27,18 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cointruir Contenedor
-        run: docker build --file Dockerfile --tag ghcr.io/${{ github.repository }}:savant .
+        run: docker build --file Dockerfile --tag ghcr.io/${{ github.repository }}:${{ github.ref_name }} .
 
       - name: Publicar Contenedor
-        run: docker push ghcr.io/${{ github.repository }}:savant
-
+        run: docker push ghcr.io/svelezsaffon/savant:latest
 
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
     needs: build
     steps:
-
       - name: Conectarse Registry Github
         uses: docker/login-action@v3
         with:
@@ -38,7 +47,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Traer contenedor
-        run: docker pull ghcr.io/${{ github.repository }}:savant
+        run: docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 
       - name: Test Cases
         run:  docker run -e API_URL="http://localhost:8100" --rm savant sh -c "uvicorn main:app --host 0.0.0.0 --port 8100 & sleep 100 && pytest"
