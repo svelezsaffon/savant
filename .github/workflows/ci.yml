@@ -29,32 +29,28 @@ jobs:
       - name: Cointruir Contenedor
         run: docker build --file Dockerfile --tag ghcr.io/${{ github.repository }}:${{ github.ref_name }} .
 
-      - name: Publicar Contenedor
-        run: docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-
-  test:
-    # https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages#deploying-github-pages-artifacts
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: read
-      pages: write
-      id-token: write
-    needs: build
-    steps:
-      - uses: actions/checkout@v3
-      - name: Conectarse Registry Github
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Traer contenedor
-        run: docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-
       - name: Ejecutar Contenedor
         run: docker run -d --name savant -p 8100:8100 ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 
+      - name: Esperar que Servidor este list
+        run: |
+          for i in {1..20}; do
+            if curl -s http://localhost:8100/docs; then
+              echo "Servicio esta listo"
+              exit 0
+            fi
+            echo "Esperando el servicio..."
+            sleep 2
+          done
+
+      - name: Instalar dependencias de test
+        run: pip install pytest pytest-html requests
+
       - name: Test Cases
-        run: pytest
+        run: |
+          mkdir -p reports
+          pytest --html=reports/index.html
+
+      - name: Apagar contenedor
+        if: always()
+        run: docker stop savant && docker rm savant
