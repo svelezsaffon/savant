@@ -1,5 +1,5 @@
 from fastapi import APIRouter, status
-from src.schema.schema import LanguageModel, Language
+from src.schema.schema import LanguageModel, Language, HealthModel, ServerStatus
 from src.api.endpoints import speech, text
 
 api_router = APIRouter()
@@ -11,6 +11,11 @@ async def read_languages():
     for lang in Language:
         response.append(LanguageModel(name=lang))
     return response
+
+
+@api_router.get("/health", response_model=HealthModel, status_code=status.HTTP_200_OK)
+async def read_languages():
+    return HealthModel(status=ServerStatus.READY, ok=True)
 
 
 api_router.include_router(

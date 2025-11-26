@@ -38,7 +38,7 @@ jobs:
       - name: Esperar que Servidor este list
         run: |
           for i in {1..20}; do
-            if curl -s http://localhost:8100/docs; then
+            if curl -s http://localhost:8100/api/health; then
               echo "Servicio esta listo"
               exit 0
             fi

@@ -9,9 +9,17 @@ class Language(str, Enum):
     GE = "GE"
 
 
+class ServerStatus(str, Enum):
+    READY = "ready"
+
+
 class LanguageModel(BaseModel):
     name: Language = Field(..., description="EL nombre del lenguaje")
 
+
+class HealthModel(BaseModel):
+    status: ServerStatus = Field(..., description="Referencias del status del servedir")
+    ok: bool = Field(..., description="El servidor esta ok")
 
 class TextToAudioInput(BaseModel):
     text: str = Field(..., description="Texto a transcribir a audio", min_length=3, max_length=400)
