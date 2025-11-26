@@ -1,0 +1,26 @@
+name: Prueba tecnica Savanrt
+
+on:
+    push:
+    pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - name: clonar codigo
+        uses: actions/checkout@v4
+
+      - name: Instalar python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Construir contenedor
+        run: docker build --file Dockerfile . --tag savant
+
+      - name: Test Cases
+        run: 	docker run --rm -v $(shell pwd)/reports:/app/reports savant sh -c "uvicorn main:app --host 0.0.0.0 --port 8100 & sleep 100 && pytest"
+
