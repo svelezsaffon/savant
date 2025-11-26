@@ -4,43 +4,114 @@
 El siguiente repositorio es utilizado para una prueba tecnica de Savant para la posicion QA automation
 
 
+# Estructure del proyecto
+
+El servicio cuenta principalmenet con dos directorios, `src` y `tests`.
+
+1) `src` se encuentra el codigo fuente
+2) `test` los casos de prueba
+
+
+## Arquitectura
+
+El servicio esta disenado para proveer 2 funcionalidades principales
+
+1) Convertir texto a archivo de audio
+2) Convertir archivos de audio a text.
+
+Para poder servir estas funcionalidades, el servicio tiene la siguiente estructra:
+
+
+```
+src/
+    - api/
+        - endpoints/
+            - speech/
+            - text/
+    - app/
+    - schema/
+```
+
+## `app`
+
+Tiene toda la logica del servidor, funciones de implementacion de texto a audio y audio a text. Para lograr estas funcionalidades, se utilizaron las siguientes librearias
+
+1. whisper [Speech recognition model](https://github.com/openai/whisper)
+2. pyttsx3 [Offline Text To Speech](https://github.com/nateshmbhat/pyttsx3)
+
+
+## `api/endpoints`
+
+Este directorio contiene toda la implemenetacion de los endpoints, no contiene la logic. Solo la definicion de FastApi para los endpoints
+
+Actualmente existe 3 Endpoints:
+
+## `schema`:
+En este directorio tenemos todas las definiciones de datos, se utiliza pydantic para definir validaciones y restricciones de datos.
 
 # Instalacion
 
+1. Clonar el repositorios
 
-Se recomienda utilizar un ambiente virtual para ejectuar el proyecto
+    ```
+    git clone https://github.com/svelezsaffon/savant.git
+    ```
+2. Ir al directirio
 
-## Creare ambiente virtual
+    ```
+    cd savant
+    ```
+3. Crear un ambiente virtual
 
+    ```
+    python3 -m venv .venv
+    ```
+
+ 4. Activar el ambiente virtual
+
+    ```
+     source .venv/bin/activate
+    ```
+
+# Ejecucion
+
+El proyecto tiene algunas dependencias para ejecutar los modelos de reconicimoento de texto y audio, por lo tanto se sugiere utilizar docker o postman, y ejecutarse en contenedores.
+
+Para faciliar la ejecuion del proyecto, se provee un make file
+
+## Contruir el contenedor
+
+make file
 ```
-python3 -m venv .venv
-
-source .venv/bin/activate
-
-python3 -m pip install --upgrade pip
+make build
 ```
 
-## Instalar dependencias
-
+directamenete
 ```
-pip install -r requirements.txt
+docker build -f Dockerfile . -t savant
 ```
 
-## Dependencias
+## Ejecturar el contenedor
 
-Algunas librerias neceitan algunas dependencias, por ejemplo whisper
+make file
+```
+make run
+```
 
-1) on Ubuntu or Debian
-`sudo apt update && sudo apt install ffmpeg`
+directamenete
+```
+docker run -p 8100:8100 savant:latest
+```
 
-2) on Arch Linux
-`sudo pacman -S ffmpeg`
+## Ejecutar pruebas en docker y afuera
 
-3) on MacOS using Homebrew (https://brew.sh/)
-`brew install ffmpeg`
+make file
+```
+make test
+```
 
-4) on Windows using Chocolatey (https://chocolatey.org/)
-`choco install ffmpeg`
+Dirtectarmenete
+```
+pytest
+```
 
-5) on Windows using Scoop (https://scoop.sh/)
-`scoop install ffmpeg`

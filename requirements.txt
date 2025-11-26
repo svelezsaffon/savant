@@ -3,3 +3,6 @@ requests
 python-dotenv
 pyttsx3
 openai-whisper
+python-multipart
+Faker
+pytest-html

@@ -1,15 +1,14 @@
-import unittest
+import os
 import uuid
+import unittest
 
 import requests
 
 from src.schema.schema import LanguageModel
-
 from dotenv import load_dotenv
-import os
 
 
-class TestSpeeech(unittest.TestCase):
+class TestAvailableLanguages(unittest.TestCase):
 
     def setUp(self) -> None:
         """
