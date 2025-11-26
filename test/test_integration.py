@@ -24,7 +24,7 @@ class TestSpeechUnitCases(unittest.TestCase):
 
         load_dotenv()
 
-        self.api_url = os.getenv("API_URL")
+        self.api_url = os.getenv("API_URL","http://localhost:8100")
 
         self.speech_url = f"{self.api_url}/api/speech/totext"
         self.text_url = f"{self.api_url}/api/text/toaudio"

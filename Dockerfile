@@ -4,9 +4,7 @@ FROM python:3.11-slim
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         ffmpeg \
-        espeak \
-        espeak-ng \
-        libespeak1
+        espeak-ng
 
 WORKDIR /app
 
