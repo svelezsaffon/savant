@@ -54,7 +54,7 @@ jobs:
         run: docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 
       - name: Ejecutar Contenedor
-        run: docker run -d --name savant -p 8100:8100 -e ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+        run: docker run -d --name savant -p 8100:8100 ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 
       - name: Test Cases
         run: pytest
