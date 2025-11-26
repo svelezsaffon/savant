@@ -49,7 +49,7 @@ jobs:
       - name: Test Cases
         run: |
           mkdir -p reports
-          pytest --html=reports/index.html
+          pytest
 
       - name: Apagar contenedor
         if: always()
@@ -57,6 +57,6 @@ jobs:
 
       #https://github.com/actions/upload-pages-artifact
       - name: Subir reporte a pages
-        uses: actions/deploy-pages@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           path: reports

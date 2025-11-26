@@ -4,7 +4,7 @@
 El siguiente repositorio es utilizado para una prueba tecnica de Savant para la posicion QA automation
 
 
-# Estructure del proyecto
+# Estructura del proyecto
 
 El servicio cuenta principalmenet con dos directorios, `src` y `tests`.
 
@@ -46,7 +46,7 @@ Este directorio contiene toda la implemenetacion de los endpoints, no contiene l
 
 Actualmente existe 3 Endpoints:
 
-## `schema`:
+## `schema`
 En este directorio tenemos todas las definiciones de datos, se utiliza pydantic para definir validaciones y restricciones de datos.
 
 # Instalacion
@@ -107,11 +107,13 @@ docker run -p 8100:8100 savant:latest
 
 make file
 ```
-make test
+make test-docker
 ```
 
 Dirtectarmenete
 ```
+pip install -r test_requirements.txt
+
 pytest
 ```
 
