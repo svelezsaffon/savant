@@ -56,7 +56,15 @@ jobs:
         run: docker stop savant && docker rm savant
 
       #https://github.com/actions/upload-pages-artifact
-      - name: Subir reporte a pages
+      - name: Configurar github pages
+        uses: actions/configure-pages@v5
+
+      - name: Subir reporte a Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: reports
+
+      - name: Deploy a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
