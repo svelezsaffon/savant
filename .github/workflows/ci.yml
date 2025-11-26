@@ -30,7 +30,7 @@ jobs:
         run: docker build --file Dockerfile --tag ghcr.io/${{ github.repository }}:${{ github.ref_name }} .
 
       - name: Publicar Contenedor
-        run: docker push ghcr.io/svelezsaffon/savant:latest
+        run: docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 
   test:
     runs-on: ubuntu-latest
